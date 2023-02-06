@@ -19,7 +19,6 @@ const pathTalker = path.resolve(__dirname, './talker.json');
 const readTalker = async () => {
   const read = await fs.readFile(pathTalker, 'utf-8');
   const talker = JSON.parse(read);
-  console.log(talker);
   return talker;
 };
 
@@ -29,6 +28,16 @@ app.get('/talker', async (req, res) => {
     return res.status(200).json([]);
   }
   return res.status(200).json(talkers);
+});
+
+app.get('/talker/:id', async (req, res) => {
+  try {
+    const talkerIds = await readTalker();
+    const talkerId = talkerIds.find(({ id }) => id === Number(req.params.id));
+    res.status(200).json(talkerId);
+  } catch (error) {
+    res.status(404).send({ message: 'Pessoa palestrante não encontrada' });
+  }
 });
 
 app.listen(PORT, () => {
