@@ -44,7 +44,7 @@ app.get('/talker/:id', async (req, res) => {
 
 app.post('/login', emailValidator, passwordValidator, (req, res) => {
   const token = uid(16);
-  return res.status(200).json({ token });
+  res.status(200).json({ token });
 });
 
 // https://www.npmjs.com/package/rand-token

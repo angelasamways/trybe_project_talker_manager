@@ -1,6 +1,6 @@
 const passwordValidator = (req, res, next) => {
   const { password } = req.body;
-  if (password === undefined || password === '') {
+  if (!password) {
     return res.status(400).send({
       message: 'O campo "password" é obrigatório',
     });

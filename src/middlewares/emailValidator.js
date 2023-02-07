@@ -6,8 +6,7 @@ const emailValidator = (req, res, next) => {
     });
   }
 
-  const validEmail = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+).(\.[a-z]{2,3})$/;
-
+  const validEmail = /^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/;
   const emailTest = validEmail.test(email);
 
   if (!emailTest) {
