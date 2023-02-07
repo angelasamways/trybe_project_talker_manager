@@ -1,6 +1,8 @@
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
+// const { v4: uuidv4 } = require('uuid');
+const { uid } = require('rand-token');
 
 const app = express();
 app.use(express.json());
@@ -38,6 +40,17 @@ app.get('/talker/:id', async (req, res) => {
   }
     return res.status(404).send({ message: 'Pessoa palestrante não encontrada' });
 });
+
+app.post('/login', async (req, res) => {
+  const token = uid(16);
+  res.status(200).json({ token });
+  // const { email, password } = req.body;
+  // const login = await readTalker();
+});
+
+// https://www.npmjs.com/package/rand-token
+
+// https://medium.com/@norbertofariasmedeiros/five-steps-como-gerar-um-random-token-em-javascript-1e1488a15d28
 
 app.listen(PORT, () => {
   console.log('Online');
