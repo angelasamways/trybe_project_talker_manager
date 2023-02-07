@@ -1,8 +1,9 @@
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
-// const { v4: uuidv4 } = require('uuid');
 const { uid } = require('rand-token');
+const emailValidator = require('./middlewares/emailValidator');
+const passwordValidator = require('./middlewares/passwordValidator');
 
 const app = express();
 app.use(express.json());
@@ -41,11 +42,9 @@ app.get('/talker/:id', async (req, res) => {
     return res.status(404).send({ message: 'Pessoa palestrante não encontrada' });
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login', emailValidator, passwordValidator, (req, res) => {
   const token = uid(16);
-  res.status(200).json({ token });
-  // const { email, password } = req.body;
-  // const login = await readTalker();
+  return res.status(200).json({ token });
 });
 
 // https://www.npmjs.com/package/rand-token
