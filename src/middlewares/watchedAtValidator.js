@@ -2,7 +2,7 @@ const watchedAtValidator = (req, res, next) => {
   const { talk: { watchedAt } } = req.body;
   const dateFormat = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
   // https://www.guj.com.br/t/resolvido-como-validar-data-com-java-script/276656
-  if (!watchedAt) {
+  if (watchedAt === undefined) {
     return res.status(400).json({ message: 'O campo "watchedAt" é obrigatório' });
   }
   if (!dateFormat.test(watchedAt)) {

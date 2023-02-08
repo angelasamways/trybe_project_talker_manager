@@ -1,6 +1,6 @@
 const ageValidator = (req, res, next) => {
   const { age } = req.body;
-  if (!age) {
+  if (age === undefined) {
     return res.status(400).send({ message: 'O campo "age" é obrigatório' });
   }
   if (Number(age) < 18) {
