@@ -58,7 +58,7 @@ app.post('/login', emailValidator, passwordValidator, (req, res) => {
 // https://medium.com/@norbertofariasmedeiros/five-steps-como-gerar-um-random-token-em-javascript-1e1488a15d28
 
 app.post('/talker', autValidator,
-ageValidator, nameValidator, rateValidator, talkValidator, watchedAtValidator, async (req, res) => {
+ageValidator, nameValidator, talkValidator, rateValidator, watchedAtValidator, async (req, res) => {
   const { name, age, talk: { watchedAt, rate } } = req.body;
   const talker = await readTalker();
   const talkerId = talker[talker.length - 1].id;
