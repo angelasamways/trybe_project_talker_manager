@@ -2,8 +2,14 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const { uid } = require('rand-token');
+const ageValidator = require('./middlewares/ageValidator');
+const autValidator = require('./middlewares/autValidator');
 const emailValidator = require('./middlewares/emailValidator');
+const nameValidator = require('./middlewares/nameValidator');
 const passwordValidator = require('./middlewares/passwordValidator');
+const rateValidator = require('./middlewares/rateValidator');
+const talkValidator = require('./middlewares/talkValidator');
+const watchedAtValidator = require('./middlewares/watchedAtValidator');
 
 const app = express();
 app.use(express.json());
@@ -50,6 +56,17 @@ app.post('/login', emailValidator, passwordValidator, (req, res) => {
 // https://www.npmjs.com/package/rand-token
 
 // https://medium.com/@norbertofariasmedeiros/five-steps-como-gerar-um-random-token-em-javascript-1e1488a15d28
+
+app.post('/talker', autValidator,
+ageValidator, nameValidator, rateValidator, talkValidator, watchedAtValidator, async (req, res) => {
+  const { name, age, talk: { watchedAt, rate } } = req.body;
+  const talker = await readTalker();
+  const talkerId = talker[talker.length - 1].id;
+  const newTalker = { name, age, id: talkerId + 1, talk: { watchedAt, rate } };
+  talker.push(newTalker);
+  await fs.writeFile(pathTalker, JSON.stringify(talker));
+  return res.status(201).json(newTalker);
+});
 
 app.listen(PORT, () => {
   console.log('Online');
