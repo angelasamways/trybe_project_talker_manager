@@ -68,6 +68,18 @@ ageValidator, nameValidator, talkValidator, rateValidator, watchedAtValidator, a
   return res.status(201).json(newTalker);
 });
 
+app.put('/talker/:id', autValidator,
+ageValidator, nameValidator, talkValidator, rateValidator, watchedAtValidator, async (req, res) => {
+  const { name, age, talk } = req.body;
+  const id = Number(req.params.id);
+  const talker = await readTalker();
+  const takeTalker = { name, age, id, talk };
+  const editTalker = talker.filter((x) => x.id !== Number(id));
+  editTalker.push(takeTalker);
+  fs.writeFile(pathTalker, JSON.stringify(editTalker));
+  return res.status(200).json(takeTalker);
+});
+
 app.listen(PORT, () => {
   console.log('Online');
 });
