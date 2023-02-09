@@ -80,6 +80,14 @@ ageValidator, nameValidator, talkValidator, rateValidator, watchedAtValidator, a
   return res.status(200).json(takeTalker);
 });
 
+app.delete('/talker/:id', autValidator, async (req, res) => {
+  const id = Number(req.params.id);
+  const talker = await readTalker();
+  const deleteTalker = talker.filter((x) => x.id !== Number(id));
+  fs.writeFile(pathTalker, JSON.stringify(deleteTalker));
+  return res.status(204).end();
+});
+
 app.listen(PORT, () => {
   console.log('Online');
 });
